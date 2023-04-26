@@ -72,7 +72,7 @@ class Recommender():
 
         descriptions = {}
     
-        for comp in cif_pths:
+        for comp in tqdm(cif_pths):
             structure = Structure.from_file(cif_pths[comp])
 
             condensed_structure = condenser.condense_structure(structure)
