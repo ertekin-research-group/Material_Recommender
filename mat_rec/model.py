@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 from mat_rec.multitask.utils.data import DataGenerator, PredictDataset
 from mat_rec.multitask.models.MMOE import MMOE
 from mat_rec.multitask.basic.features import DenseFeature, SparseFeature
-
+from mat_rec.multitask.trainers import MTLTrainer
 from torch.utils.data import Dataset, DataLoader
 
 import torch
@@ -75,7 +75,7 @@ class mat_MMoE():
         return cv_test
 
 
-    def  train(self, x_train, y_train, x_test, y_test, multi_task=True, n_task=5, n_expert=8):
+    def  train(self, x_train, y_train, x_test, y_test, multi_task=True, model_path='./saved_model'):
         """_summary_
 
         Args:
@@ -93,7 +93,7 @@ class mat_MMoE():
 
         parameters = self.config
 
-        features = list([DenseFeature(col) for col in x_train.columns[:-4]] + [SparseFeature(col,2,embed_dim=4) for col in x_train.columns[-4:]])
+        #features = list([DenseFeature(col) for col in x_train.columns[:-4]] + [SparseFeature(col,2,embed_dim=4) for col in x_train.columns[-4:]])
 
         x_train, x_val, y_train, y_val = train_test_split(x_train, y_train, test_size=0.1, train_size=0.9, random_state=19)
 
@@ -105,20 +105,24 @@ class mat_MMoE():
         train_dataloader, val_dataloader, test_dataloader = dg.generate_dataloader(x_val=x_val, y_val=y_val, x_test=x_test, y_test=y_test, batch_size=parameters['batch_size'])
         
         if multi_task:
+            self.model = MMOE(self.features, [self.model_config['task_type']]*self.model_config['n_task'], self.model_config['n_expert'],
+                    expert_params={"dims": self.model_config['expert_dim']},  tower_params_list=[{"dims": self.model_config['tower_dim']}]*self.model_config['n_expert'])
 
             mtl_trainer = MTLTrainer(self.model, task_types=[self.model_config['task_type']]*self.model_config['n_task'], optimizer_params={"lr": parameters['learning_rate'], "weight_decay": parameters['weight_decay']},
-            n_epoch=parameters['epoch'], earlystop_patience=500, device=self.device, model_path='thermo_mmoe_model')
+            n_epoch=parameters['epoch'], earlystop_patience=500, device=self.device, model_path=model_path)
 
         else:
+            self.model = MMOE(self.features, [self.model_config['task_type']], 1,
+            expert_params={"dims": self.model_config['expert_dim']}, tower_params_list=[{"dims": self.model_config['tower_dim']}])
 
             mtl_trainer = MTLTrainer(self.model, task_types=[self.model_config['task_type']], optimizer_params={"lr": parameters['learning_rate'], "weight_decay": parameters['weight_decay']},
-            n_epoch=parameters['epoch'], earlystop_patience=500, device=self.device)
+            n_epoch=parameters['epoch'], earlystop_patience=500, device=self.device,model_path=model_path)
 
 
         mtl_trainer.fit(train_dataloader, val_dataloader)
         mtl_trainer.evaluate(mtl_trainer.model, test_dataloader)
 
-        predictions = self.evaluate(self.device,mtl_trainer.model,test_dataloader)
+        predictions = self.evaluate(test_dataloader)
         
         print('r2 score :{}'.format(r2_score(y_test,predictions)))
 
