@@ -5,6 +5,9 @@ import numpy as np
 import pandas as pd
 import glob
 import os
+import json
+import warnings
+warnings.filterwarnings("ignore")
 
 def main():
     with open('train_config.json', 'r') as f:
@@ -27,7 +30,7 @@ def main():
 
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
-
+    property_model = model.mat_MMoE()
 
     #data_use = data_use.reset_index()
 
@@ -52,16 +55,16 @@ def main():
         x_train, y_train, x_test, y_test = embedding_features, train_data, embedding_features, train_data
         mtl_trainer, output = property_model.train(x_train, y_train, x_test, y_test)
 
-        np.save('output/{}_multi_task_prediction_results_{}epoch_{}.npy'.format(model_name, parameters['epoch'],i), output)
-        np.save('output/{}_multi_task_loss_{}epoch_{}.npy'.format(model_name, parameters['epoch'],i), np.array([mtl_trainer.train_loss,mtl_trainer.val_loss],dtype=object))
+        np.save('output/multi_task_prediction_results.npy', output)
+        np.save('output/multi_task_loss.npy', np.array([mtl_trainer.train_loss,mtl_trainer.val_loss],dtype=object))
 
     else:
         #single task
         x_train, y_train, x_test, y_test = embedding_features, train_data, embedding_features, train_data
         mtl_trainer, output = property_model.train(x_train, y_train.reshape(-1,1), x_test, y_test.reshape(-1,1), multi_task=False)
         all_target_results.append(output)
-        np.save('output/{}_single_task_prediction_results_{}epoch_{}.npy'.format(model_name, parameters['epoch'],i), output)
-        np.save('output/{}_single_task_loss_{}epoch_{}.npy'.format(model_name, parameters['epoch'],i), np.array([mtl_trainer.train_loss,mtl_trainer.val_loss],dtype=object))
+        np.save('output/single_task_prediction_results.npy', output)
+        np.save('output/single_task_loss.npy', np.array([mtl_trainer.train_loss,mtl_trainer.val_loss],dtype=object))
 
 
 if __name__ == "__main__":
