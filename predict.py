@@ -52,7 +52,7 @@ def main():
     pred_df['id'] = id
     pred_df[targets] = pred
 
-    pred_df.to_csv('pred_result.csv')
+    pred_df.to_csv('output/pred_result.csv')
 
 if __name__ == "__main__":
     main()
