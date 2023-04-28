@@ -1,0 +1,1 @@
+{"train_data_dir": "data/train_structure_egap/", "targets": ["eform", "egap"], "epoch": 50, "learning_rate": 0.1, "batch_size": 64, "n_expert": 2}
