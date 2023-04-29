@@ -2,7 +2,7 @@ import pickle
 import pandas as pd
 import numpy as np
 from tqdm import tqdm
-from pymatgen import Structure
+from pymatgen.core import Structure
 from robocrys import StructureCondenser, StructureDescriber
 from transformers import BertTokenizerFast
 from transformers import BertModel
@@ -12,6 +12,9 @@ import mat_rec.model as model
 from mat_rec.get_embedding_bert import *
 from mat_rec.utils import *
 from sklearn.metrics.pairwise import cosine_similarity
+
+import warnings
+warnings.filterwarnings("ignore")
 
 class Recommender():
 
@@ -70,26 +73,27 @@ class Recommender():
         condenser = StructureCondenser()
         describer = StructureDescriber()
 
-        descriptions = {}
+        descriptions = []
     
-        for comp in tqdm(cif_pths):
-            structure = Structure.from_file(cif_pths[comp])
+        for cif_pth in tqdm(cif_pths):
+            structure = Structure.from_file(cif_pth[1])
 
             condensed_structure = condenser.condense_structure(structure)
             description = describer.describe(condensed_structure)
 
-            descriptions[comp] = description
+            descriptions.append((cif_pth[0], description))
         
         return descriptions
 
 
     def get_embedding(self, descriptions):
 
-        compositions = list(descriptions.keys())
+        #compositions = list(descriptions.keys())
+        compositions = [d[0] for d in descriptions]
+        structure_descriptions = [d[1] for d in descriptions]
         composition_embedding = run_bert(compositions, 'matbert', self.lm, self.tokenizer)
-
-        structures = list(descriptions.values())
-        structure_embedding = run_bert(structures, 'matbert', self.lm, self.tokenizer)
+        #structures = list(descriptions.values())
+        structure_embedding = run_bert(structure_descriptions, 'matbert', self.lm, self.tokenizer)
 
         return composition_embedding, structure_embedding
 
@@ -146,8 +150,9 @@ class Recommender():
         descriptions = self.get_description(cif_paths)
 
         composition_embedding, structure_embedding = self.get_embedding(descriptions)
+        compositions = [d[0] for d in descriptions]
 
-        for i, comp in enumerate(descriptions.keys()):
+        for i, comp in enumerate(compositions):
 
             candidate_idx, query_topk = self.query_composition(structure_embedding[i][0], self.structure_embeddings, self.structure_names)
             self.search_results[comp] = {'query_idx':candidate_idx,'query_topk':query_topk}
