@@ -145,7 +145,7 @@ class Recommender():
         return rank_target
     
 
-    def search_rank(self, cif_paths):
+    def search_rank(self, cif_paths, k=100):
 
         descriptions = self.get_description(cif_paths)
 
@@ -154,7 +154,7 @@ class Recommender():
 
         for i, comp in enumerate(compositions):
 
-            candidate_idx, query_topk = self.query_composition(structure_embedding[i][0], self.structure_embeddings, self.structure_names)
+            candidate_idx, query_topk = self.query_composition(structure_embedding[i][0], self.structure_embeddings, self.structure_names, k=k)
             self.search_results[comp] = {'query_idx':candidate_idx,'query_topk':query_topk}
 
             query_output = []
@@ -178,7 +178,7 @@ class Recommender():
 
             rank_candidate = self.rank_composition(query_output[0], candidate_output[0], self.structure_names[candidate_idx])
 
-            self.rank_results[comp] = rank_candidate
+            self.rank_results[comp] = rank_candidate.drop_duplicates('composition_name')
 
     
 
