@@ -9,8 +9,9 @@ Leveraging representations extracted from language models pretrained on material
 
 ## Installation and prerequisites
 - To install the dependencies via Anaconda:
-1. Create conda virtual env: `conda env create -f environment.yml`
-2. Activate virtual env: `conda activate matrec`
+1. Clone the repo: `git clone https://github.com/ertekin-research-group/Material_Recommender.git`
+3. Create conda virtual env: `conda env create -f environment.yml`
+4. Activate virtual env: `conda activate matrec`
 
 - Download composition and structure embeddings:
 The embeddings for 116K materials obtained in this work can be found [here](https://doi.org/10.6084/m9.figshare.22718668.v1)
