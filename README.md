@@ -19,7 +19,7 @@ The embeddings for 116K materials obtained in this work can be found [here](http
 `structure_embeddings_116k.h5`: sentence embeddings on automatically generated material descriptions. Place the downloaded files under the main directory.
 
 - Download pretrained weights:
-Follow the instructions on [MatBERT repo](https://github.com/lbnlp/MatBERT) to download pretrained weights and tokenizer for the uncased model. Place the folder under matbert_model_fiels directory.
+Follow the instructions on [MatBERT repo](https://github.com/lbnlp/MatBERT) to download pretrained weights and tokenizer for the uncased model. Place the folder under matbert_model_files directory.
 
 
 
