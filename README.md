@@ -28,5 +28,5 @@ Follow the instructions on [MatBERT repo](https://github.com/lbnlp/MatBERT) to d
 
 - Ranking candidates for materials with similar TE performance.
 
-- Training task-specific models on material representations. 
+- Training MMoeE models on material representations. 
 
