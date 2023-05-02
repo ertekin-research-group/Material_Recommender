@@ -23,11 +23,11 @@ def main():
         if os.path.isfile(train_data_dir+'train_embeddings_composition.npy'):
             embedding_features = np.load(train_data_dir+'train_embeddings_composition.npy')
         else:
-            descriptions = (row[1].composition, row[1].composition for row in train_data.iterrows())
+            descriptions = [(row[1].composition, row[1].composition) for row in train_data.iterrows()]
             composition_embedding,structure_embedding = recommender.get_embedding(descriptions)
 
     else:
-        structure_dir = (row[1].composition, train_data_dir+row[1].id+'.cif' for row in train_data.iterrows())
+        structure_dir = [(row[1].composition,train_data_dir+row[1].id+'.cif') for row in train_data.iterrows()]
 
         if os.path.isfile(train_data_dir+'train_embeddings.npy'):
             embedding_features = np.load(train_data_dir+'train_embeddings.npy')
