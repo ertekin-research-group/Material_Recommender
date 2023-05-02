@@ -16,6 +16,6 @@ dependencies:
 
   - pip:
     - torch==1.7.0
-    - pymatgen==2022.11.7
+    - pymatgen==2023.3.23
     - robocrys==0.2.7
-    - matminer==0.6.2
+    - matminer==0.8.0
