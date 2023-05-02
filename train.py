@@ -15,18 +15,29 @@ def main():
     
     train_data_dir = train_config['train_data_dir']
     targets = train_config['targets']
+    composition_only = json.loads(train_config['composition_only'].lower())
     train_data = pd.read_csv(train_data_dir+'train_data.csv')
+    
+    if composition_only:
 
-    structure_dir = {row[1].composition:train_data_dir+row[1].id+'.cif' for row in train_data.iterrows()}
-
-    if os.path.isfile(train_data_dir+'train_embeddings.npy'):
-        embedding_features = np.load(train_data_dir+'train_embeddings.npy')
+        if os.path.isfile(train_data_dir+'train_embeddings_composition.npy'):
+            embedding_features = np.load(train_data_dir+'train_embeddings_composition.npy')
+        else:
+            descriptions = (row[1].composition, row[1].composition for row in train_data.iterrows())
+            composition_embedding,structure_embedding = recommender.get_embedding(descriptions)
 
     else:
-        descriptions = recommender.get_description(structure_dir)
-        composition_embedding,structure_embedding = recommender.get_embedding(descriptions)
-        embedding_features = np.concatenate([np.concatenate(composition_embedding),np.concatenate(structure_embedding)],1)
-        np.save(train_data_dir+'train_embeddings.npy',embedding_features)
+        structure_dir = (row[1].composition, train_data_dir+row[1].id+'.cif' for row in train_data.iterrows())
+
+        if os.path.isfile(train_data_dir+'train_embeddings.npy'):
+            embedding_features = np.load(train_data_dir+'train_embeddings.npy')
+        else:
+            descriptions = recommender.get_description(structure_dir)
+            composition_embedding,structure_embedding = recommender.get_embedding(descriptions)
+            embedding_features = np.concatenate([np.concatenate(composition_embedding),np.concatenate(structure_embedding)],1)
+            np.save(train_data_dir+'train_embeddings.npy',embedding_features)
+
+
 
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
