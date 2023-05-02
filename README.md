@@ -4,7 +4,7 @@ Leveraging representations extracted from language models pretrained on material
 
 ## Framework
 <p align="center">
-  <img src="https://github.com/ertekin-research-group/Material_Recommender/blob/main/workflow.PNG" /width="1000"> 
+  <img src="https://github.com/ertekin-research-group/Material_Recommender/blob/main/workflow.PNG" /width="1200"> 
 </p>
 
 ## Installation and prerequisites
