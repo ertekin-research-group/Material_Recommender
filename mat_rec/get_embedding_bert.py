@@ -1,7 +1,7 @@
 import torch
 import sys
 sys.path.append('../MatSciBERT')
-from normalize_text import normalize
+#from normalize_text import normalize
 from transformers import AutoModel, AutoTokenizer
 from transformers import BertTokenizerFast
 from transformers import BertModel
