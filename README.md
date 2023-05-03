@@ -1,7 +1,7 @@
 # Material_Recommender
 Leveraging representations extracted from language models pretrained on material science literature for material discovery and property prediction.
 
-**(Code still under construction)**
+:construction: **Code still under construction** :construction:
 
 ## Framework
 <p align="center">
@@ -26,11 +26,11 @@ Follow the instructions on [MatBERT repo](https://github.com/lbnlp/MatBERT) to d
 
 ## Usage
 - Search material candidates in the representation space.<BR>
-`TODO`
+:book:`TODO`
 - Ranking candidates for materials with similar TE performance.<BR>
-`TODO`
+:book:`TODO`
 - Training MMoeE models on material representations.<BR>
-`TODO`
+:book:`TODO`
 
 ## Cite
 ```
