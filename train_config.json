@@ -5,4 +5,4 @@
  "learning_rate": 0.01, 
  "batch_size": 64, 
  "n_expert": 2, 
- "composition_only": "True"}
+ "composition_only": "False"}
