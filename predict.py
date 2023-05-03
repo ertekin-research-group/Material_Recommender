@@ -15,8 +15,8 @@ def main():
     targets = train_config['targets']
     test_data = pd.read_csv(test_data_dir+'test_data.csv')
     id = test_data.id.values
-
-    structure_dir = [(row[1].composition, test_data_dir+row[1].id+'.cif') for row in test_data.iterrows()]
+    recommender = mat_recommender.Recommender(bert_model_dir = 'matbert_model_files/matbert-base-uncased')
+    structure_dir = (row[1].composition, test_data_dir+row[1].id+'.cif' for row in test_data.iterrows())
 
     if os.path.isfile(test_data_dir+'test_embeddings.npy'):
         embedding_features = np.load(test_data_dir+'test_embeddings.npy')

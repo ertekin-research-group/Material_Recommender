@@ -18,6 +18,8 @@ def main():
     composition_only = json.loads(train_config['composition_only'].lower())
     train_data = pd.read_csv(train_data_dir+'train_data.csv')
     
+    recommender = mat_recommender.Recommender(bert_model_dir = 'matbert_model_files/matbert-base-uncased')
+
     if composition_only:
 
         if os.path.isfile(train_data_dir+'train_embeddings_composition.npy'):
