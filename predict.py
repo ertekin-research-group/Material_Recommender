@@ -6,6 +6,8 @@ import glob
 import json
 import os 
 
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
+
 def main():
     
     with open('train_config.json', 'r') as f:
