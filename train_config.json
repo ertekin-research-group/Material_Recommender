@@ -1,4 +1,4 @@
-{"train_data_dir": "data/train_thermo/",
+{"train_data_dir": "data/train_structure_egap/",
  "test_data_dir":"data/test_structure_egap/", 
  "targets": ["eform", "egap"], 
  "epoch": 1, 
