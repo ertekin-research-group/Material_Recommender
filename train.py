@@ -9,6 +9,8 @@ import json
 import warnings
 warnings.filterwarnings("ignore")
 
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
+
 def main():
     with open('train_config.json', 'r') as f:
         train_config = json.load(f)
