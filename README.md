@@ -30,3 +30,14 @@ Follow the instructions on [MatBERT repo](https://github.com/lbnlp/MatBERT) to d
 
 - Training MMoeE models on material representations. 
 
+## Cite
+```
+@misc{qu2023leveraging,
+      title={Leveraging Language Representation for Material Recommendation, Ranking, and Exploration},
+      author={Jiaxing Qu and Yuxuan Richard Xie and Elif Ertekin},
+      year={2023},<br>
+      eprint={2305.01101},
+      archivePrefix={arXiv},
+      primaryClass={cond-mat.mtrl-sci}
+}
+```
