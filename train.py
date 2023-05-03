@@ -19,7 +19,7 @@ def main():
     train_data = pd.read_csv(train_data_dir+'train_data.csv')
     
     recommender = mat_recommender.Recommender(bert_model_dir = 'matbert_model_files/matbert-base-uncased')
-
+    
     if composition_only:
 
         if os.path.isfile(train_data_dir+'train_embeddings_composition.npy'):
@@ -27,6 +27,7 @@ def main():
         else:
             descriptions = [(row[1].composition, row[1].composition) for row in train_data.iterrows()]
             composition_embedding,structure_embedding = recommender.get_embedding(descriptions)
+            embedding_features = np.concatenate(composition_embedding)
 
     else:
         structure_dir = [(row[1].composition,train_data_dir+row[1].id+'.cif') for row in train_data.iterrows()]
