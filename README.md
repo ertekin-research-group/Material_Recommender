@@ -25,11 +25,12 @@ Follow the instructions on [MatBERT repo](https://github.com/lbnlp/MatBERT) to d
 
 
 ## Usage
-- Search material candidates in the representation space.
-
-- Ranking candidates for materials with similar TE performance.
-
-- Training MMoeE models on material representations. 
+- Search material candidates in the representation space.<BR>
+`TODO`
+- Ranking candidates for materials with similar TE performance.<BR>
+`TODO`
+- Training MMoeE models on material representations.<BR>
+`TODO`
 
 ## Cite
 ```
