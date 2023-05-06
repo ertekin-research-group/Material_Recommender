@@ -170,6 +170,7 @@ class Recommender():
             x_candidate = {name: candidate_features[name].values for name in candidate_features.columns}
 
             query_output_temp = self.mmoe_model.predict(x_query)
+            print('predicted values for {}:{}'.format(comp,query_output_temp))
             query_output.append(query_output_temp)
             candidate_output_temp = self.mmoe_model.predict(x_candidate)
             candidate_output.append(candidate_output_temp)
