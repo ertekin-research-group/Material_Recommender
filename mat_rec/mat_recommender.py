@@ -182,6 +182,7 @@ class Recommender():
 
             self.rank_results[comp] = rank_candidate.drop_duplicates('composition_name')
 
+        return query_output
     
 
     
