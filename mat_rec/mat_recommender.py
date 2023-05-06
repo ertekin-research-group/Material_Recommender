@@ -15,6 +15,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 import warnings
 warnings.filterwarnings("ignore")
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 class Recommender():
 
